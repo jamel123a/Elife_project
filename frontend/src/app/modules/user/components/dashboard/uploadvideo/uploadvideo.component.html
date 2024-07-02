@@ -1,0 +1,47 @@
+<div class="container mt-3">
+  <div class="row justify-content-center">
+
+      <h2>Add Video</h2>
+      <hr/>
+      <div class="card card-body ng-light">
+        <form [formGroup]="uploadVideoForm" (ngSubmit)="addVideo()">
+
+          <div class="form-group">
+            <label for="file">File</label>
+            <input type="file" id="file" (change)="onFileChange($event)" class="form-control">
+            <div *ngIf="uploadVideoForm.get('file')?.invalid && uploadVideoForm.get('file')?.touched" class="text-danger">
+              File is required
+            </div>
+          </div>
+          <br>
+
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" placeholder="Title" required minlength="20">
+            <mat-error *ngIf="uploadVideoForm.get('title')?.invalid && uploadVideoForm.get('title')?.touched">Must be at least 20 characters</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" placeholder="Description" required minlength="50">
+            <mat-error *ngIf="uploadVideoForm.get('description')?.invalid && uploadVideoForm.get('description')?.touched">Must be at least 50 characters</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Tags</mat-label>
+            <mat-chip-grid #chipList>
+              <mat-chip-row *ngFor="let tag of uploadVideoForm.get('tags')?.value" [removable]="true" (removed)="removeTag(tag)">
+                {{ tag }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip-row>
+              <input placeholder="Add tags..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addTag($event)">
+            </mat-chip-grid>
+            <mat-error *ngIf="uploadVideoForm.get('tags')?.invalid && uploadVideoForm.get('tags')?.touched">Must have at least one tag</mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="uploadVideoForm.invalid">Add Video</button>
+        </form>
+      </div>
+    </div>
+</div>

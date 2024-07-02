@@ -1,0 +1,113 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Add Video</h2>
+      <hr/>
+      <div class="card card-body ng-light">
+        <form [formGroup]="addVideoForm" (ngSubmit)="addVideo()">
+
+
+
+          <div class="form-group" >
+            <label for="file">File</label>
+            <input type="file" id="file" (change)="onFileChange($event)" class="form-control">
+            <div *ngIf="addVideoForm.get('file')?.invalid && addVideoForm.get('file')?.touched" class="text-danger">
+              File is required
+            </div>
+
+          </div>
+          <br>
+
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" placeholder="Title" required minlength="20">
+            <mat-error *ngIf="addVideoForm.get('title')?.invalid && addVideoForm.get('title')?.touched">Must be at least 20 characters</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" placeholder="Description" required minlength="50">
+            <mat-error *ngIf="addVideoForm.get('description')?.invalid && addVideoForm.get('description')?.touched">Must be at least 50 characters</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Tags</mat-label>
+            <mat-chip-grid #chipList>
+              <mat-chip-row *ngFor="let tag of addVideoForm.get('tags')?.value" [removable]="true" (removed)="removeTag(tag)">
+                {{ tag }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip-row>
+              <input placeholder="Add tags..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addTag($event)">
+            </mat-chip-grid>
+            <mat-error *ngIf="addVideoForm.get('tags')?.invalid && addVideoForm.get('tags')?.touched">Must have at least one tag</mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="addVideoForm.invalid">Add Video</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h2>List Videos</h2>
+      <hr/>
+      <div class="card card-body ng-light">
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource">
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> Id </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <!-- Title Column -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef> Title </th>
+              <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <!-- Tags Column -->
+            <ng-container matColumnDef="tags">
+              <th mat-header-cell *matHeaderCellDef> Tags </th>
+              <td mat-cell *matCellDef="let element"> {{element.tags}} </td>
+            </ng-container>
+
+            <!-- Views Column -->
+            <ng-container matColumnDef="views">
+              <th mat-header-cell *matHeaderCellDef> Views </th>
+              <td mat-cell *matCellDef="let element"> {{element.views}} </td>
+            </ng-container>
+
+            <!-- UserId Column -->
+            <ng-container matColumnDef="userId">
+              <th mat-header-cell *matHeaderCellDef> UserId </th>
+              <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button type="button"  mat-raised-button color="primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="updateVideo(element.id)">
+                  update
+              </button>
+
+              <button mat-raised-button color="warn"  (click)="deleteVideo(element.id)">Delete</button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

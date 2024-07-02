@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <div class="d-flex align-items-center w-100">
+      <a class="navbar-brand" routerLink="/">
+        <img src="../../assets/logo.png" alt="Bootstrap" width="30" height="26">
+      </a>
+      <form class="d-flex ms-auto me-auto search-container" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit" >
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div  class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul  class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  href="#">Videos Labery</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Conctact Us</a>
+        </li>
+        <button *ngIf="!isAdminLogged && !isUserLogged" class="btn btn-secondary" routerLink="/login">Login&Upload</button>
+        <button *ngIf="isAdminLogged || isUserLogged" class="btn btn-secondary" (click)="logout()">Logout</button>
+      </ul>
+    </div>
+  </div>
+</nav>
