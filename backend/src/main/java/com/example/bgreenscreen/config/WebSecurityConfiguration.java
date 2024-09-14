@@ -36,6 +36,7 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(request -> request.requestMatchers("/api/auth/**")
                 .permitAll()
                 .requestMatchers("/api/videos/public").permitAll()  // Allow unauthenticated access to public videos
+                .requestMatchers("/api/videos/{videoId}").permitAll()  // Allow unauthenticated access to view individual video details
                 .requestMatchers("/api/admin/**").hasAnyAuthority(Role.ADMIN.name())
                 .requestMatchers("/api/user/**").hasAnyAuthority(Role.USER.name())
                 .requestMatchers("/api/videos/upload").authenticated()

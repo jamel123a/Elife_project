@@ -8,9 +8,9 @@ import { StorageService } from 'src/app/auth/services/storage/storage.service';
 })
 export class DashboardComponent {
 menuItems = [
-  { name: 'Home', icon: 'home', route: 'users' },
-  { name: 'Profile', icon: 'person', route: 'videos/public' },
-  { name: 'Settings', icon: 'settings', route: 'videos/attende' },
+  { name: 'Users', icon: 'home', route: 'users' },
+  { name: 'Public Video', icon: 'person', route: 'videos/public' },
+  { name: 'Attende Video', icon: 'settings', route: 'videos/attende' },
 ];
 
 }

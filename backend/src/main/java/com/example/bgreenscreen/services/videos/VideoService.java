@@ -2,6 +2,7 @@ package com.example.bgreenscreen.services.videos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,12 +26,11 @@ import java.util.List;
 public class VideoService   {
 
 
+   
     @Value("${upload.directory}")
     private String uploadDirectory;
-
     @Autowired
     private VideoRepository videoRepository;
-
     public Video uploadVideo(MultipartFile file, Video video, String userId, boolean isAdmin) {
 
         // to check exist or no 
@@ -42,17 +42,14 @@ public class VideoService   {
         if (!isValidFileType(file)) {
             throw new IllegalArgumentException("Only video files are allowed.");
         }
-
         // Save the file to the specified directory
         String fileName = saveFile(file);
-
         // Generate video ID from title
         video.setId(generateVideoId(video.getTitle()));
         video.setVideoUrl(fileName); 
         video.setViews(0);
         video.setUserId(userId);
         video.setVideoStatus(isAdmin ? VideoStatus.PUBLIC : VideoStatus.ATTENDE);
-
         // Save video to the database
         return videoRepository.save(video);
 
@@ -101,6 +98,7 @@ public class VideoService   {
         }
     }
 
+
     public List<Video> getAllPublicVideos() {
         return videoRepository.findByVideoStatus(VideoStatus.PUBLIC);
     }
@@ -119,6 +117,7 @@ public class VideoService   {
             video.setTitle(updateVideoDto.getTitle());
             video.setDescription(updateVideoDto.getDescription());
             video.setTags(updateVideoDto.getTags());
+        //     video.setVideoStatus(updateVideoDto.getVideoStatus()); // Update videoStatus
             return videoRepository.save(video);
         });
     }
@@ -126,16 +125,20 @@ public class VideoService   {
         videoRepository.deleteById(videoId);
     }
 
-    public Video updateVideoStatus(String videoId, VideoStatus newStatus) {
-        Optional<Video> videoOptional = videoRepository.findById(videoId);
-        if (videoOptional.isPresent()) {
-            Video video = videoOptional.get();
-            video.setVideoStatus(newStatus);
+
+    
+    public Video updateVideoStatusToPublic(String videoId) {
+        Optional<Video> optionalVideo = videoRepository.findById(videoId);
+        if (optionalVideo.isPresent()) {
+            Video video = optionalVideo.get();
+            video.setVideoStatus(VideoStatus.PUBLIC); // Set status to PUBLIC
             return videoRepository.save(video);
         } else {
-            throw new IllegalArgumentException("Video not found");
+            throw new IllegalArgumentException("Video not found with id: " + videoId);
         }
     }
+
+    
 
 
 }

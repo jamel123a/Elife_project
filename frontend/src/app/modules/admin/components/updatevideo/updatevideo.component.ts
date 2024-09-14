@@ -32,7 +32,9 @@ export class UpdatevideoComponent implements OnInit {
     this.updateVideoForm = this.fb.group({
       title: [null, [Validators.required, Validators.minLength(5)]],
       description: [null, [Validators.required, Validators.minLength(10)]],
-      tags: [null, [Validators.required]]
+      tags: [null, [Validators.required]],
+  //    videoStatus: [null, [Validators.required]]
+
     });
   }
 
@@ -41,7 +43,8 @@ export class UpdatevideoComponent implements OnInit {
       this.updateVideoForm.patchValue({
         title: res.title,
         description: res.description,
-        tags: res.tags
+        tags: res.tags,
+     //   videoStatus: res.videoStatus
       });
       console.log(this.updateVideoForm)
 
@@ -49,7 +52,6 @@ export class UpdatevideoComponent implements OnInit {
   }
 
   onSubmit() {
-
 
     const tagsValue = this.updateVideoForm.get('tags')?.value;
 
@@ -60,7 +62,9 @@ export class UpdatevideoComponent implements OnInit {
     const updatedVideo = {
       title: this.updateVideoForm.get('title')?.value,
       description: this.updateVideoForm.get('description')?.value,
-      tags: tagsArray, // Use the split tags array
+     // videoStatus: this.updateVideoForm.get('videoStatus')?.value,
+      tags: tagsArray, // Use the split tags array,
+
     };
 
     this.adminService.updateVideo(this.data.videoId, updatedVideo).subscribe(res => {

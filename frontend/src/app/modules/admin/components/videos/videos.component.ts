@@ -63,10 +63,9 @@ export class VideosComponent implements OnInit{
 
       this.addVideoForm = this.fb.group({
         file: [null, [Validators.required]],
-        title: [null, [Validators.required, Validators.maxLength(25)]],
-        description: [null, [Validators.required,  Validators.maxLength(50)]],
-        tags: [[]],
-      });
+        title: [null, [Validators.required, Validators.minLength(20)]],
+        description: [null, [Validators.required,  Validators.minLength(40)]],
+        tags: [null, [Validators.required]],});
 
 
       this.updateVideoForm = this.fb.group({
@@ -92,7 +91,7 @@ export class VideosComponent implements OnInit{
       formData.append('file', this.addVideoForm.get('file')?.value);
       formData.append('title', this.addVideoForm.get('title')?.value);
       formData.append('description', this.addVideoForm.get('description')?.value);
-      formData.append('tags', JSON.stringify(this.addVideoForm.get('tags')?.value)); // Convert tags array to string
+      formData.append('tags', this.addVideoForm.get('tags')?.value); // Convert tags array to string
       this.adminService.addVideo(formData).subscribe(
         res => {
           this.snackbar.open('Video added successfully', 'Close', { duration: 3000 });

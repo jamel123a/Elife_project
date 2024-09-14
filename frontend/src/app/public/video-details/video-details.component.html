@@ -1,0 +1,23 @@
+<div class="container mt-3">
+  <div *ngIf="videoDetails">
+    <h1>{{ videoDetails.title }}</h1>
+    <video width="600px" controls>
+      <source [src]="videoDetails.videoUrl" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <p>{{ videoDetails.description }}</p>
+    <p>Views: {{ videoDetails.views }}</p>
+    <div *ngIf="videoDetails.tags && videoDetails.tags.length">
+      <h3>Tags:</h3>
+      <ul>
+        <li *ngFor="let tag of videoDetails.tags">{{ tag }}</li>
+      </ul>
+    </div>
+
+    <button mat-raised-button color="primary"><a [href]="videoDetails.videoUrl" download>
+      Download Video
+    </a>
+  </button>
+
+  </div>
+</div>

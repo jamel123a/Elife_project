@@ -1,6 +1,7 @@
 package com.example.bgreenscreen.services.admin;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public UserDto addUser(UserDto userDto) {
+        if (userRepository.findFirstByEmail(userDto.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
@@ -48,7 +52,17 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public UserDto updateUser(Long id, UserUpdateDto userUpdateDto) {
+
+       
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+
+    if (!user.getEmail().equals(userUpdateDto.getEmail())) {
+        Optional<User> existingUser = userRepository.findFirstByEmail(userUpdateDto.getEmail());
+        if (existingUser.isPresent() && !existingUser.get().getId().equals(user.getId())) {
+            throw new RuntimeException("Email already exists");
+        }
+    }
         user.setUsername(userUpdateDto.getUsername());
         user.setEmail(userUpdateDto.getEmail());
         user.setRole(userUpdateDto.getRole());

@@ -98,9 +98,7 @@ export class UsersComponent implements OnInit {
 
     this.adminService.addUser(newUser).pipe(
       catchError((error) => {
-        let errorMsg = error.error;
-
-        this.snackbar.open(errorMsg, 'Close', {
+        this.snackbar.open(error, 'Close', {
           duration: 5000,
           panelClass: 'error-snackbar'
         });

@@ -42,13 +42,20 @@ public class AdminController {
     
     @PostMapping("/users")
     public ResponseEntity<?> addUser(@RequestBody UserDto userDto) {
-
-        return ResponseEntity.ok(adminService.addUser(userDto));
+        try {
+            return ResponseEntity.ok(adminService.addUser(userDto));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exist with this email");
+        }
     }
 
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto userUpdateDto) {
-        return ResponseEntity.ok(adminService.updateUser(id, userUpdateDto));
+        try {
+            return ResponseEntity.ok(adminService.updateUser(id, userUpdateDto));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exist with this email");
+        }
     }
 
      @DeleteMapping("/users/{id}")

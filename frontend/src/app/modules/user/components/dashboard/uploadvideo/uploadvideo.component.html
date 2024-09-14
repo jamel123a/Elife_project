@@ -23,21 +23,14 @@
 
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Description</mat-label>
-            <input matInput formControlName="description" placeholder="Description" required minlength="50">
-            <mat-error *ngIf="uploadVideoForm.get('description')?.invalid && uploadVideoForm.get('description')?.touched">Must be at least 50 characters</mat-error>
+            <input matInput formControlName="description" placeholder="Description" required minlength="40">
+            <mat-error *ngIf="uploadVideoForm.get('description')?.invalid && uploadVideoForm.get('description')?.touched">Must be at least 40 characters</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>Tags</mat-label>
-            <mat-chip-grid #chipList>
-              <mat-chip-row *ngFor="let tag of uploadVideoForm.get('tags')?.value" [removable]="true" (removed)="removeTag(tag)">
-                {{ tag }}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip-row>
-              <input placeholder="Add tags..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                     [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addTag($event)">
-            </mat-chip-grid>
-            <mat-error *ngIf="uploadVideoForm.get('tags')?.invalid && uploadVideoForm.get('tags')?.touched">Must have at least one tag</mat-error>
+            <input matInput formControlName="tags" placeholder="tags: green screen,memes" required>
+            <mat-error *ngIf="uploadVideoForm.get('tags')?.invalid && uploadVideoForm.get('tags')?.touched">Must be at least 40 characters</mat-error>
           </mat-form-field>
 
           <button mat-raised-button color="primary" type="submit" [disabled]="uploadVideoForm.invalid">Add Video</button>

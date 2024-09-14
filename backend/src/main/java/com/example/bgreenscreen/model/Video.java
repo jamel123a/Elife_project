@@ -22,7 +22,7 @@ public class Video {
     @Id
     private String id;
     private String title;
-    private String VideoUrl; // URL to the video file
+    private String videoUrl; // URL to the video file
     private int views;
     private String description;
     private Set<String> tags;
@@ -30,5 +30,11 @@ public class Video {
     private String UserId;
 
 
+
+
+    public void setStatusToPublic() {
+        this.videoStatus = VideoStatus.PUBLIC;
+    }
     
 }
+

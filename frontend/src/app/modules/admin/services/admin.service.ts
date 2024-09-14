@@ -1,7 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { StorageService } from 'src/app/auth/services/storage/storage.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+
 const Basic_URL ="http://localhost:4201/"
 
 @Injectable({
@@ -35,19 +38,23 @@ export class AdminService {
   getUser(id: number): Observable<any> {
     return this.http.get(Basic_URL + `api/admin/users/${id}`, {
       headers: this.createAuthorizationHeader()
-    });
+    })
   }
 
   addUser(user: any): Observable<any> {
     return this.http.post(Basic_URL + "api/admin/users", user, {
       headers: this.createAuthorizationHeader()
-    });
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   updateUser(id: number, user: any): Observable<any> {
     return this.http.put(Basic_URL + `api/admin/users/${id}`, user, {
       headers: this.createAuthorizationHeader()
-    });
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   deleteUser(id: number): Observable<any> {
@@ -98,17 +105,27 @@ deleteVideo(id: string): Observable<any> {
   });
 }
 
-changeVideoStatus(id: string, newStatus: string): Observable<any> {
-  return this.http.put(Basic_URL + `api/videos/status/${id}?newStatus=${newStatus}`, {}, {
+changeVideoStatus(videoId: string, newStatus: string): Observable<any> {
+  return this.http.put(Basic_URL + `api/videos/${videoId}/status?newStatus=${newStatus}`, {}, {
     headers: this.createAuthorizationHeader()
-  });
+  })
+}
+
+private handleError(error: HttpErrorResponse) {
+  let errorMessage = 'Unknown error!';
+  if (error.error instanceof ErrorEvent) {
+    // Client-side errors
+    errorMessage = `Error: ${error.error.message}`;
+  } else {
+    // Server-side errors
+    errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+  }
+  console.error(errorMessage);
+  return throwError(errorMessage);
+
+
 }
 
 
-
-
-
 }
-
-
 

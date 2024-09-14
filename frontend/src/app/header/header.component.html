@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex align-items-center w-100">
       <a class="navbar-brand" routerLink="/">
-        <img src="../../assets/logo.png" alt="Bootstrap" width="30" height="26">
+        <img src="../../assets/logo.jpg" alt="Bootstrap" width="30" height="26">
       </a>
       <form class="d-flex ms-auto me-auto search-container" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -22,9 +22,20 @@
         <li class="nav-item">
           <a class="nav-link"  href="#">Videos Labery</a>
         </li>
+        <!-- if admin login in-->
+        <li *ngIf="isAdminLogged" class="nav-item">
+          <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
+        </li>
+
+               <!-- if user login in-->
+        <li *ngIf="isUserLogged" class="nav-item">
+          <a class="nav-link" routerLink="/user/dashboard">Dashboard</a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link" href="#">About Us</a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="#">Conctact Us</a>
         </li>

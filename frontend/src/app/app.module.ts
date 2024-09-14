@@ -13,7 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DemoAngularMaterielModule } from './DemoAngularMaterielModule';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './modules/admin/admin.module';
-import { DashboardComponent } from './modules/admin/components/dashboard/dashboard.component';
+import { VideoDetailsComponent } from './public/video-details/video-details.component';
+import { NotfoundpageComponent } from './notfoundpage/notfoundpage.component';
 
 
 
@@ -25,6 +26,8 @@ import { DashboardComponent } from './modules/admin/components/dashboard/dashboa
     FooterComponent,
     LoginComponent,
     SignupComponent,
+    VideoDetailsComponent,
+    NotfoundpageComponent,
 
 
   ],
@@ -38,7 +41,7 @@ import { DashboardComponent } from './modules/admin/components/dashboard/dashboa
     HttpClientModule,
     AdminModule,
 
-    
+
 
   ],
 

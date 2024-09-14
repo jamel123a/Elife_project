@@ -19,7 +19,8 @@ import { UpdateUserComponent } from './components/update-user/update-user.compon
     VideosComponent,
     UpdatevideoComponent,
     AttendeVideoComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
+
 
   ],
   imports: [
